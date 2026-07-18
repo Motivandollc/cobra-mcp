@@ -1,5 +1,7 @@
 # cobra-mcp — Servidor MCP de facturación electrónica SRI (Ecuador)
 
+[![smithery badge](https://smithery.ai/badge/soporte/Cobra)](https://smithery.ai/servers/soporte/Cobra)
+
 > **El primer MCP de facturación electrónica del SRI de Ecuador.** Factura al SRI hablándole
 > a tu agente de IA. · 🌐 [facturacobra.com/mcp](https://facturacobra.com/mcp) · 📘 [Docs / OpenAPI](https://facturacobra.com/api/v1/docs) · 📇 En el [registro oficial MCP](https://registry.modelcontextprotocol.io) como `com.facturacobra/cobra`.
 
