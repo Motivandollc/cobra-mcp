@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.facturacobra/cobra",
+  "title": "Cobra · Facturación SRI Ecuador",
+  "description": "Emite facturas, notas y retenciones del SRI de Ecuador con lenguaje natural.",
+  "version": "1.0.0",
+  "websiteUrl": "https://facturacobra.com/mcp",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://facturacobra.com/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer + tu llave de API de Cobra (mfact_...), desde Config > Desarrolladores.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

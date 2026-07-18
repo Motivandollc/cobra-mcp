@@ -1,0 +1,23 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+# Cobra MCP — facturación electrónica del SRI (Ecuador).
+# Corre el bridge stdio (index.js) contra la API pública de Cobra con tu llave.
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema de la configuración del MCP.
+    type: object
+    required:
+      - cobraApiKey
+    properties:
+      cobraApiKey:
+        type: string
+        description: "Tu llave de API de Cobra (mfact_...). Genérala en facturacobra.com > Config > Desarrolladores. Usa una llave sandbox (ambiente de pruebas) para probar."
+      cobraApiUrl:
+        type: string
+        default: "https://facturacobra.com/api/v1"
+        description: "Base URL de la API de Cobra (opcional)."
+  commandFunction:
+    # Función que produce el comando CLI para arrancar el MCP por stdio.
+    |-
+    config => ({ command: 'node', args: ['index.js'], env: { COBRA_API_KEY: config.cobraApiKey, COBRA_API_URL: config.cobraApiUrl || 'https://facturacobra.com/api/v1' } })
