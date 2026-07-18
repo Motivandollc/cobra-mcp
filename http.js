@@ -25,7 +25,12 @@ function extractKey(req) {
   const auth = req.headers['authorization'] || '';
   if (auth.startsWith('Bearer ')) return auth.slice(7).trim();
   const x = req.headers['x-api-key'];
-  return typeof x === 'string' ? x.trim() : '';
+  if (typeof x === 'string' && x.trim()) return x.trim();
+  // Fallback: llave por query param. Gateways como Smithery pasan la llave en la URL
+  // (?APIkey=mfact_...) en vez de por header. Aceptamos varias grafías comunes.
+  const q = req.query || {};
+  const qk = q.APIkey || q.apikey || q.apiKey || q.api_key || q.key;
+  return typeof qk === 'string' ? qk.trim() : '';
 }
 
 app.get('/health', (_req, res) => res.json({ status: 'ok', service: 'cobra-mcp', transport: 'streamable-http' }));
@@ -33,7 +38,7 @@ app.get('/health', (_req, res) => res.json({ status: 'ok', service: 'cobra-mcp',
 app.post('/mcp', async (req, res) => {
   const key = extractKey(req);
   if (!key || !key.startsWith('mfact_')) {
-    return res.status(401).json({ jsonrpc: '2.0', error: { code: -32001, message: 'Falta la API key. Envía Authorization: Bearer mfact_... o X-API-Key.' }, id: null });
+    return res.status(401).json({ jsonrpc: '2.0', error: { code: -32001, message: 'Falta la API key. Envía Authorization: Bearer mfact_..., X-API-Key o ?APIkey=mfact_...' }, id: null });
   }
   const server = buildServer({ apiKey: key, apiUrl: API_URL });
   const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined }); // stateless
