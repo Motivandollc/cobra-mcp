@@ -109,8 +109,8 @@ export function buildServer({ apiKey, apiUrl = DEFAULT_API_URL }) {
   });
 
   server.registerTool('anular_documento', {
-    title: 'Anular un comprobante (interno, ventana 7 días)',
-    description: 'Marca el comprobante como anulado internamente. La anulación ante el SRI la hace el contribuyente en el portal. Fuera de la ventana, usa una nota de crédito.',
+    title: 'Anular un comprobante',
+    description: 'Evalúa y registra la anulación de un comprobante según las reglas del SRI (2025-2026): bloquea las facturas a consumidor final (firmes desde el 1-ene-2026), respeta el plazo (hasta el día 7 del mes siguiente al de emisión) y, fuera de plazo, indica emitir una nota de crédito. El SRI no tiene API de anulación: el contribuyente la completa en el portal SRI en línea. Devuelve la decisión (puede/motivo/via/plazo_hasta y el siguiente paso).',
     inputSchema: { document_id: z.string(), reason: z.string().describe('Motivo de la anulación.') },
   }, async ({ document_id, reason }) => call('POST', `/documents/${encodeURIComponent(document_id)}/anular`, { reason }));
 
