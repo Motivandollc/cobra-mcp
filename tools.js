@@ -53,6 +53,10 @@ export function buildServer({ apiKey, apiUrl = DEFAULT_API_URL }) {
         method,
         headers: { 'X-API-Key': apiKey, 'Content-Type': 'application/json' },
         body: body ? JSON.stringify(body) : undefined,
+        // Timeout duro: sin esto, una API downstream colgada dejaría la conexión MCP
+        // abierta hasta el proxy_read_timeout de nginx (1h). La emisión al SRI puede
+        // tardar; 60s cubre el peor caso real con margen.
+        signal: AbortSignal.timeout(60_000),
       });
       data = await res.json().catch(() => ({}));
     } catch (e) {
