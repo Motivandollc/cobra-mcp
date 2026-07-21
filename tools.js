@@ -23,7 +23,7 @@ const itemShape = z.object({
   cantidad: z.number(),
   precio_unitario: z.number().describe('Sin IVA.'),
   descuento: z.number().optional(),
-  iva_codigo_porcentaje: z.string().optional().describe('4=15% (default), 0=0%, 5=5%, 6=no objeto, 7=exento.'),
+  iva_codigo_porcentaje: z.string().optional().describe('4=15% (default), 0=0%, 5=5%, 6=no objeto, 7=exento, 8=8% feriados turísticos (por decreto; responsabilidad del emisor).'),
   codigo_principal: z.string().optional(),
 });
 const retItemShape = z.object({
